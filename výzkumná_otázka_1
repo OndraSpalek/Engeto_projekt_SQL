@@ -1,0 +1,15 @@
+
+--1) Rostou v průběhu let mzdy ve všech odvětvích, nebo v některých klesají?
+SELECT 
+    payroll_year, 
+    industry_name, 
+    ROUND(AVG(average_value)::NUMERIC, 2) AS average_salary
+FROM t_ondrej_spalek_project_SQL_primary_final
+WHERE 
+	industry_name IS NOT NULL 
+GROUP BY 
+	payroll_year, 
+	industry_name
+ORDER BY 
+	payroll_year, 
+	industry_name;
