@@ -1,0 +1,18 @@
+
+--3) Která kategorie potravin zdražuje nejpomaleji (je u ní nejnižší percentuální meziroční nárůst)?
+SELECT
+	rok,
+	name AS item_name,
+   	ROUND (AVG(average_value_item),2) AS this_year_value,
+    ROUND (LAG(AVG(average_value_item)) OVER (PARTITION BY category_code ORDER BY rok),2) AS previous_year_value,
+    ROUND ((AVG(average_value_item) - LAG(AVG(average_value_item)) OVER (PARTITION BY category_code ORDER BY rok)) / LAG(AVG(average_value_item)) OVER (PARTITION BY category_code ORDER BY rok) * 100,2) AS percentage_change
+FROM t_ondrej_spalek_project_SQL_primary_final
+WHERE name IS NOT NULL 
+GROUP BY 
+    rok, 
+    category_code, 
+    name
+ORDER BY 
+   	name,
+   	rok ASC, 
+   	percentage_change;
