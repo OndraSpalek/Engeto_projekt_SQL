@@ -1,0 +1,31 @@
+--2) Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období v dostupných datech cen a mezd?
+SELECT 
+    rok,
+    name,
+    ROUND(SUM(average_value) / COUNT(payroll_year), 2) AS average_salary_year,
+    average_value_item,
+   	ROUND (((ROUND(SUM(average_value) / COUNT(payroll_year), 0))/ average_value_item),2) AS number_of_items 
+FROM t_ondrej_spalek_project_SQL_primary_final
+WHERE 
+    rok = 2006
+    AND name IN ('Chléb konzumní kmínový', 'Mléko polotučné pasterované')
+GROUP BY 
+    rok,
+    name,
+    average_value_item
+UNION ALL
+SELECT 
+    rok,
+    name,
+    ROUND(SUM(average_value) / COUNT(payroll_year), 2) AS average_salary_year,
+    average_value_item,
+   ROUND (((ROUND(SUM(average_value) / COUNT(payroll_year), 0))/ average_value_item),2) AS number_of_items 
+FROM t_ondrej_spalek_project_SQL_primary_final
+WHERE 
+    rok = 2018
+    AND name IN ('Chléb konzumní kmínový', 'Mléko polotučné pasterované')
+GROUP BY 
+    rok,
+    name,
+    average_value_item;
+   
