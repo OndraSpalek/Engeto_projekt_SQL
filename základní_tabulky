@@ -1,0 +1,55 @@
+--Skript pro vytvoření primární tabulky na zodpovídání výzkumných dotazů: t_ondrej_spalek_project_SQL_primary_final
+
+CREATE TABLE t_ondrej_spalek_project_SQL_primary_final  AS
+WITH avg_payroll AS (
+SELECT
+	cpib."name"  AS industry_name,
+	cp.industry_branch_code,
+	cp.payroll_year, 
+    ROUND (AVG(cp.value) :: NUMERIC ,2) AS average_value 
+FROM czechia_payroll cp 
+LEFT JOIN czechia_payroll_industry_branch cpib
+ON cpib.code = cp.industry_branch_code 
+WHERE value_type_code = '5958'
+AND calculation_code = '200'
+GROUP BY 
+	cpib."name",
+	cp.industry_branch_code,
+	cp.payroll_year
+),
+food_price AS (
+	SELECT 
+   	 	cpc.name,
+    	cp.category_code, 
+    	DATE_PART('year', cp.date_from) AS rok,
+    	ROUND(AVG(cp.value)::NUMERIC, 2) AS average_value_item
+	FROM czechia_price cp
+	LEFT JOIN czechia_price_category cpc 
+    	ON cp.category_code = cpc.code 
+	GROUP BY 	
+		cpc.name, 
+		cp.category_code, 
+		DATE_PART('year', cp.date_from)
+)
+SELECT *
+FROM avg_payroll
+LEFT JOIN food_price 
+ON food_price.rok = avg_payroll.payroll_year;
+
+--Skript pro vytvoření sekundární tabulky na zodpovídání výzkumných dotazů: t_ondrej_spalek_project_SQL_secondary_final
+
+CREATE TABLE t_ondrej_spalek_project_SQL_secondary_final AS
+SELECT 
+    country,
+    year,
+    gdp,
+    population,
+    (gdp - LAG(gdp) OVER (ORDER BY "year")) / LAG(gdp) OVER (ORDER BY "year") * 100 AS gdp_percentage_change
+FROM 
+    economies e
+WHERE 
+    country = 'Czech Republic'
+    AND gdp IS NOT NULL
+    AND YEAR BETWEEN 2006 AND 2018
+ORDER BY 
+    "year";
