@@ -26,7 +26,6 @@ food_price AS (
 	FROM czechia_price cp
 	LEFT JOIN czechia_price_category cpc 
     	ON cp.category_code = cpc.code 
-	--WHERE cp.region_code IS NOT NULL
 	GROUP BY 	
 		cpc.name, 
 		cp.category_code, 
