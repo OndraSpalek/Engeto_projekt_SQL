@@ -4,7 +4,7 @@ CREATE TABLE t_ondrej_spalek_project_SQL_primary_final  AS
 WITH avg_payroll AS (
 SELECT
 	cpib."name"  AS industry_name,
-	cp.industry_branch_code ,
+	cp.industry_branch_code,
 	cp.payroll_year, 
     ROUND (AVG(cp.value) :: NUMERIC ,2) AS average_value 
 FROM czechia_payroll cp 
@@ -13,8 +13,8 @@ ON cpib.code = cp.industry_branch_code
 WHERE value_type_code = '5958'
 AND calculation_code = '200'
 GROUP BY 
-	cpib."name" ,
-	cp.industry_branch_code ,
+	cpib."name",
+	cp.industry_branch_code,
 	cp.payroll_year
 ),
 food_price AS (
@@ -120,7 +120,7 @@ GROUP BY
     name
 ORDER BY 
    	name,
-   	rok ASC , 
+   	rok ASC, 
    	percentage_change;
 
 -- 4) Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?  
