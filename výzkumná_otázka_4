@@ -1,0 +1,19 @@
+-- 4) Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?  
+   
+SELECT 
+    payroll_year,
+    average_value,
+    ROUND (((average_value - LAG(average_value) OVER (ORDER BY payroll_year)) / LAG(average_value) OVER (ORDER BY payroll_year)) * 100,2) AS difference_average_value,
+    SUM(average_value_item) AS total_value,
+    ROUND (((SUM(average_value_item) - LAG(SUM(average_value_item)) OVER (ORDER BY payroll_year)) / LAG(SUM(average_value_item)) OVER (ORDER BY payroll_year)) * 100,2) AS difference_basket_value,
+    ROUND (((((SUM(average_value_item) - LAG(SUM(average_value_item)) OVER (ORDER BY payroll_year)) / LAG(SUM(average_value_item)) OVER (ORDER BY payroll_year)) * 100)/ (((average_value - LAG(average_value) OVER (ORDER BY payroll_year)) / LAG(average_value) OVER (ORDER BY payroll_year)) * 100)*100),2) AS year_percentage_change 
+FROM 
+    t_ondrej_spalek_project_SQL_primary_final
+WHERE 
+    industry_name IS NULL
+    AND payroll_year BETWEEN '2006' AND '2018'
+GROUP BY 
+    payroll_year,
+    average_value
+ORDER BY 
+    payroll_year ASC;
