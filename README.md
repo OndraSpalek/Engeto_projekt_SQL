@@ -2,9 +2,11 @@ Cíle projektu:
 Cílem projektu je vytvořit podklady pro zodpovězení výzkumných otázek týkajících se dostupnosti základních potravin široké veřejnosti.
 
 Struktura projektu: 
-Popis celého projektu naleznete v přiloženém souboru Dokumentace k projektu SQL_1.docx
+Popis celého projektu naleznete v přiloženém souboru Dokumentace k projektu SQL_1.docx. V tomto souboru je popis zadání projektu, výzkumné otázky a odpověi na ně. 
 
-SQL skripty použité pro zodpovězené jednotlivých otaázek jsou přiloženy pro každou výzkumnou otázku zvláště. SQL skripty jsou pod pojmenování Výzkumná otázka 1 -5. 
+V soboru základní_tabulky jsou SQL skripty použité pro vytvoření 2 základních tabulek ze kterých došlo následně k čerpání podkladů pro zodpovězení výzkumných otázek. 
+
+SQL skripty použité pro zodpovězené jednotlivých otaázek jsou přiloženy pro každou výzkumnou otázku zvláště. SQL skripty jsou pod pojmenování výzkumná otázka 1 -5. 
 
 Jednotlivé výzkumné otázky byly:
 
